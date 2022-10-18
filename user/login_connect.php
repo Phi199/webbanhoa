@@ -1,6 +1,7 @@
 ﻿<?php
+include 'connect.php'; 
 session_start();
-include 'connect.php';  
+ 
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST") 
@@ -17,8 +18,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $password = $row['password'];
         if(password_verify($pass,$row['password']))
         {
+            $_SESSION['user_id'] = $row['userid'];
             $_SESSION['username'] = $row['username'];
-            header('location:index.php');
+            header('location:user_page.php');
         }else{
             echo "Tên đăng nhập hoặc mật khẩu sai! Mời bạn nhập lại!";
         } 
