@@ -16,7 +16,7 @@ $danhmuc = $_POST['danhmuc'];
       mysqli_query($mysqli,$insert);
       move_uploaded_file($product_image_tmp_name,'../quanlysanpham/uploaded_img/'.$product_image);
       header('Location:../../admin/index.php?action=quanlysanpham&query=them');
-   }elseif(isset($_POST[''])){
+   }else{
       $id = $_GET['idsanpham'];
       $sql = "SELECT * FROM products WHERE id_pd = '$id'";
       $query = mysqli_query($mysqli, $sql);

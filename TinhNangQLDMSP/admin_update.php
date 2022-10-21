@@ -2,8 +2,11 @@
 
 include 'config.php';
 
-$id = $_GET['idsanpham'];
 
+
+$id = $_GET['idsanpham'];
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
    $product_name = $_POST['product_name'];
    $product_price = $_POST['product_price'];
    $product_image = $_FILES['product_image']['name'];
@@ -11,7 +14,7 @@ $id = $_GET['idsanpham'];
    $product_node = $_POST['product_node'];
    $danhmuc = $_POST['danhmuc'];
    // $product_image_folder = '../TinhNangQLDMSP/uploaded_img/'.$product_image;
-
+}
    
       if(isset($_POST['update_product']))
       {
@@ -24,8 +27,8 @@ $id = $_GET['idsanpham'];
          
       
          mysqli_query($mysqli, $update_data);
-         move_uploaded_file($product_image_tmp_name, '../TinhNangQLDMSP/uploaded_img/'.$product_image);
-         header('location:admin_page.php');
+         move_uploaded_file($product_image_tmp_name, '../module/quanlysanpham/uploaded_img/'.$product_image);
+         header('Location:../admin/index.php?action=quanlysanpham&query=them');
       }else{
          $message[] = 'please fill out all!'; 
       }
@@ -75,15 +78,23 @@ $id = $_GET['idsanpham'];
          $query_danhmuc = mysqli_query($mysqli, $sql_danhmuc);
          while($row_danhmuc = mysqli_fetch_array($query_danhmuc))
          {
-            ?>
-            <option value="<?php echo $row_danhmuc['id_danhmuc'] ?>"><?php echo $row_danhmuc['tendanhmuc'] ?></option>
+            if($row_danhmuc['id_danhmuc']==$row['id_danhmuc'])
+            {?>
+               <option selected value="<?php echo $row_danhmuc['id_danhmuc'] ?>"><?php echo $row_danhmuc['tendanhmuc'] ?></option>
+            
             <?php
+            }else{ 
+               ?>
+               <option  value="<?php echo $row_danhmuc['id_danhmuc'] ?>"><?php echo $row_danhmuc['tendanhmuc'] ?></option>
+               <?php
+            }
+            
          }
          ?>
          </select>
       <input type="file" class="box" name="product_image"  accept="image/png, image/jpeg, image/jpg">
       <input type="submit" value="update product" name="update_product" class="btn">
-      <a href="admin_page.php" class="btn">go back!</a>
+      <a href="../admin/index.php?action=quanlysanpham&query=them" class="btn">go back!</a>
    </form>
    
 
